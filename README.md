@@ -29,9 +29,9 @@ Also (rather unfortunately), myself and my co-founder had a bit of a meltdown as
 ## This Repo: Background on how the contollers fit in 
 * This repo is only one aspect of the project as a whole, it is the source code for the embedded system controllers which serve as the 'brain' of the water management system physical hardware. 
 * The controllers serve a number iof purposes:
-** They control relays which in turn activate and deactivate solenoids, which reroute water to where it needs to go (for irrigation, draining, backwashing etc.) 
-** They interpret tank level readings by reading ultrasonic distance sensors fitted in the tanks, and broadcast these readings to the server/backend using the MQTT protocol over GPRS
-** They allow for a direct connection to the systems themselves over the internet (GPRS/mobile networks). This is so that both the backend and the mobile (ionic) clients may observe and control the systems in real time.
+  * They control relays which in turn activate and deactivate solenoids, which reroute water to where it needs to go (for irrigation, draining, backwashing etc.) 
+  * They interpret tank level readings by reading ultrasonic distance sensors fitted in the tanks, and broadcast these readings to the server/backend using the MQTT protocol over GPRS
+  * They allow for a direct connection to the systems themselves over the internet (GPRS/mobile networks). This is so that both the backend and the mobile (ionic) clients may observe and control the systems in real time.
 
 
 
