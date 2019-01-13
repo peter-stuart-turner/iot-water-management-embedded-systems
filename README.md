@@ -3,8 +3,10 @@
 # Screenshots
 
 <p float="left">
-  <img src="/screenshots/admin-panel-1.jpg" alt="splashscreen" width="195px">
-  <img src="/screenshots/Launchlab-winners.jpg" alt="dashboard" width="195px">
+  <img src="/screenshots/system-embedded-controller.jpg" alt="embedded-controller" width="195px">
+  <img src="/screenshots/system-5.jpg" alt="embedded-controller" width="195px">
+  <img src="/screenshots/system-4.jpg" alt="embedded-controller" width="195px">
+  <img src="/screenshots/system-3.jpg" alt="dashboard" width="195px">
 </p>
 
 
@@ -24,17 +26,19 @@ The system was also designed to be smart enough to make decisions based on the w
 
 Also (rather unfortunately), myself and my co-founder had a bit of a meltdown as he wanted to focus on 'non-smart' such systems, and I wanted to go ahead with this. Thus I was edged out and this smart system project left in the past. So, in short, I am open sourcing all of the code in the hope that someone may find it of interest if they are trying to do something similar - it is quite rusty as it was a version 1, but it worked well enough and we actually have 3 systems still up and running and working with the app at time of writing. 
 
-## This Repo: Background on how the backend fits in 
-* This repo is only one aspect of the project as a whole, it is the backend and installer admin panel, which uses the MQTT protocol to communicate with various systems (depending on user) and with the ionic clients (mobile apps), which are also MQTT clients. 
-* The backend is reposnible for sending out scheduled MQTT messages to trigger irrigation, backwashing and draining of systems, based on settings in the system in question's app (Each system belongs to a user/family, and they can control it using their app which they log into)
-* The backend also executes various other business logic functions
+## This Repo: Background on how the contollers fit in 
+* This repo is only one aspect of the project as a whole, it is the source code for the embedded system controllers which serve as the 'brain' of the water management system physical hardware. 
+* The controllers serve a number iof purposes:
+** They control relays which in turn activate and deactivate solenoids, which reroute water to where it needs to go (for irrigation, draining, backwashing etc.) 
+** They interpret tank level readings by reading ultrasonic distance sensors fitted in the tanks, and broadcast these readings to the server/backend using the MQTT protocol over GPRS
+** They allow for a direct connection to the systems themselves over the internet (GPRS/mobile networks). This is so that both the backend and the mobile (ionic) clients may observe and control the systems in real time.
 
 
 
 ## Other aspects to the project 
-* Ionic app which is the consumer facing client. This app is also an MQTT client and allows users to log in and observe/control their systems. From the app, users may set irrigation schedules and zones, backwash and drain schedules, and specify what type of water their garden should irrigate with (municipal, rainwater or greywater). Users may also observe their tank water levels real time, as these levels are broadcast via MQTT over GPRS from each system (using ultrasonic distance sensors in the tanks) 
-* MQTT broker, we used Amazon's CloudMQTT for this, but were in the process of writing our own broker using Mosca when myself and my co-founder had the meltdown. 
-* C++ scripts that ran on Arduinos (micros I think they were). Each system was controlled by an Arduino with a connected GPRS chip, the chip allowed for the Arduino's to also be MQTT clients which could talk to the apps and backend over our local cellular networks (Vodacom). The systems continuously monitor and broadcast water levels to backend over MQTT and GPRS (using ultrasonic distance sensors), so that the app can inform users of their realtime water levels. 
+* Node backend which serves as another MQTT client to relay commands from the ionic clients to the systems themselves. The main business logic (scheduling for irrigation, backwashing etc.) is done here. - see https://github.com/peter-stuart-turner/iot-water-management-backend
+* Ionic app which is the consumer facing client. This app is also an MQTT client and allows users to log in and observe/control their systems. From the app, users may set irrigation schedules and zones, backwash and drain schedules, and specify what type of water their garden should irrigate with (municipal, rainwater or greywater). Users may also observe their tank water levels real time, as these levels are broadcast via MQTT over GPRS from each system (using ultrasonic distance sensors in the tanks) - see https://github.com/peter-stuart-turner/iot-water-management-mobile-app 
+* MQTT broker, we used Amazon's CloudMQTT for this, but were in the process of writing our own broker using Mosca when myself and my co-founder had the meltdown. - see https://www.cloudmqtt.com 
 
 ## Instructions
 Because of all of the various parts, (backend, broker, hardware) this project will likely not work out of the box. The app should work, but will not be linked to any systems. The repo is actually more to be used as a guideline as to how we went about building the systems, so that you can use it for educational purposes - and use bits of code you may want (MQTT, weather service etc. )
